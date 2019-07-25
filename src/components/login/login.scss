@@ -1,0 +1,14 @@
+.login {
+    max-width: 400px;
+    margin: 40px  auto 10px auto;
+
+    >* {
+        margin: 10px 0;
+    }
+    >h1 {
+        text-align: center;
+    }
+    > .buttonWrapper > button {
+        width: 100%;
+    }
+}
