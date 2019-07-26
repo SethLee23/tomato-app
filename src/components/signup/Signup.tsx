@@ -69,7 +69,7 @@ class Signup extends React.Component<any, ISignUpState> {
                 <div className="buttonWrapper">
                 <Button onClick={this.signup} type="primary">注册</Button>
                 </div>
-                <p>使用账号
+                <p>已有账号？
                     <Link to="/login">登陆</Link>
                 </p>
             </div>
