@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Input, Checkbox, Icon } from 'antd'
 import './todoItem.scss'
-
+import classNames from 'classnames';
 
 interface ITodoItemProps {
     completed: boolean,
@@ -35,11 +35,12 @@ class Todoitem extends React.Component<ITodoItemProps,ITodoItemState>{
     enter = () => {
         this.props.updateTodo(this.props.id,{description:this.state.editText})
     }
+    
     public render() {
 
         const { description, editing } = this.props
         const InputMessage = (
-            <div className="contentWrapper">
+            <div className="editing">
                 <Input value={this.state.editText} type="text" 
                 onChange = {(e => {this.setState({editText:e.target.value})})}
                 onKeyUp = {(e)=>{this.keyUpHandler(e)}}/>
@@ -52,13 +53,20 @@ class Todoitem extends React.Component<ITodoItemProps,ITodoItemState>{
                 </div>
             </div>)
         const todoText = (
-            <div>
-                <Checkbox onChange={(e) => { this.onChange(this.props.id, { completed: e.target.checked }) }} checked={this.props.completed} />
-                <span onDoubleClick={this.editTodo}>{description}</span>
-            </div>
+            <span className="text" onDoubleClick={this.editTodo}>
+                <span >{description}</span>
+            </span>
         )
+        const todoItemClass = classNames({
+            completed: this.props.completed,
+            editing: this.props.editing,
+			TodoItem: true,
+		})
         return (
-            <div className="todoText">
+            
+            <div className={todoItemClass} id="TodoItem">
+                <Checkbox onChange={(e) => { this.onChange(this.props.id, { completed: e.target.checked }) }} 
+                checked={this.props.completed} />
                 {editing ? InputMessage : todoText}
             </div>
 
