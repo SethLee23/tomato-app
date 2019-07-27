@@ -4,7 +4,7 @@ import Todos from 'src/components/Todos/Todos'
 import axios from 'src/config/axios';
 import history from 'src/config/history'
 import './Home.scss'
-
+import Tomatoes from 'src/components/tomatoes/tomatoes'
 interface IRouter {
 	history: any;
 }
@@ -56,6 +56,7 @@ class Home extends React.Component<IRouter,IIndexState> {
 					</Dropdown>
 				</header>
 				<main>
+					<Tomatoes/>
 					<Todos/>
 				</main>
 			</div>

@@ -3,7 +3,7 @@ import { Input, Icon, Button } from 'antd';
 import {Link} from 'react-router-dom';
 import axios from 'src/config/axios'
 
-import './SignUp.scss'
+import './signUp.scss'
 
 interface ISignUpState {
 	account: string,
