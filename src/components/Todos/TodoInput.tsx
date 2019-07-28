@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {addTodo} from "../../redux/actions";
+import {addTodo,updateTodo} from "../../redux/actions";
 import axios from 'src/config/axios';
 import {Input,Icon} from 'antd';
 
@@ -10,6 +10,7 @@ interface ITodoInputState {
 
 interface ITodoInputProps {
 	addTodo: (payload:any) => any;
+	updateTodo: (payload:any) => any;
 }
 
 class TodoInput extends React.Component<ITodoInputProps,ITodoInputState> {
@@ -59,7 +60,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = {
-	addTodo
+	addTodo,
+	updateTodo
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(TodoInput);

@@ -31,9 +31,10 @@ instance.interceptors.response.use(function (response) {
     }
     return response;
 }, function (error) {
-    if(error.response.status){
-        history.push('/login')
-    }
+    // if(error.response.status){
+    //     history.push('/login')
+    // }
+    history.push('/login')
     return Promise.reject(error);
 });
 
