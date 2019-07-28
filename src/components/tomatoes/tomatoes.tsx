@@ -29,7 +29,7 @@ class Tomatoes extends React.Component<ITomatoesProps> {
     }
     startTomatoes = async () => {
         try {
-            const response = await axios.post('tomatoes', { duration: 1500000 })
+            const response = await axios.post('tomatoes', { duration: 10000 })
             this.props.addTomatoes(response.data.resource)
         } catch (e) {
             console.error(e)
@@ -38,11 +38,12 @@ class Tomatoes extends React.Component<ITomatoesProps> {
     updateTomatoes = (payload) => {
         this.props.updateTomatoes(payload)
     }
+    
     get uncompleted() {
-        return this.props.tomatoes.filter(t => !t.description && !t.ended_at)[0]
+        return this.props.tomatoes.filter(t => !t.description && !t.ended_at&& !t.aborted)[0]
     }
     get completed() {
-        return this.props.tomatoes.filter(t => t.description && t.ended_at)
+        return this.props.tomatoes.filter(t => t.description && t.ended_at).slice(0,5)
     }
     public render() {
 

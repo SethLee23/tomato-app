@@ -1,13 +1,15 @@
 import * as React from 'react';
-
+import './timer.scss'
 
 interface ITimerProps {
+    duration: number,
     timer: number,
+    onFinished: () => void
 }
 interface ITimerState {
     clock: number,
 }
-
+let timerId:NodeJS.Timeout
 class Timer extends React.Component<ITimerProps, ITimerState> {
     constructor(props) {
         super(props)
@@ -15,25 +17,33 @@ class Timer extends React.Component<ITimerProps, ITimerState> {
             clock: props.timer
         }
     }
+    get time() {
+        const minutes = Math.floor((this.state.clock % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((this.state.clock % (1000 * 60)) / 1000);
+        return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+    }
     componentDidMount() {
-        const tomatoTimer = setInterval(() => {
+        timerId = setInterval(() => {
             this.setState({
                 clock: this.state.clock - 1000
             })
-            if (this.state.clock <= 0) {
-                clearInterval(tomatoTimer)
+            document.title = `${this.time}番茄闹钟`
+            if (this.state.clock < 1000) {
+                this.props.onFinished()
+                clearInterval(timerId)
+                document.title = "番茄闹钟"
                 // 告诉父组件完成倒计时
+                
             }
         }, 1000)
 
     }
     public render() {
-        const minutes = Math.floor((this.state.clock % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((this.state.clock % (1000 * 60)) / 1000);
-        const time = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+       const percent = 1-this.state.clock/this.props.duration
         return (
             <div className="timer" id="timer">
-                {time}
+                <span className="restTime"> {this.time}</span>
+				<div className="progress" style={{width: `${percent*100}%`}}/>
             </div>
         );
     }
