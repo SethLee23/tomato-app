@@ -9,7 +9,7 @@ import _ from 'lodash'
 import { format } from 'date-fns'
 interface ITomatoesProps {
     addTomatoes: (payload: any) => any,
-    initTomatoes: (payload: any) => any,
+    // initTomatoes: (payload: any) => any,
     tomatoes: any[]
     updateTomatoes: (payload: any) => any
 }
@@ -17,17 +17,6 @@ interface ITomatoesProps {
 class Tomatoes extends React.Component<ITomatoesProps> {
     constructor(props) {
         super(props)
-    }
-    componentDidMount() {
-        this.getTomatoes()
-    }
-    getTomatoes = async () => {
-        try {
-            const response = await axios.get('tomatoes')
-            this.props.initTomatoes(response.data.resources)
-        } catch (e) {
-            console.error(e)
-        }
     }
     startTomatoes = async () => {
         try {

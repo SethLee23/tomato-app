@@ -4,13 +4,20 @@ import Todos from 'src/components/Todos/Todos'
 import axios from 'src/config/axios';
 import history from 'src/config/history'
 import './Home.scss'
-import Tomatoes from 'src/components/tomatoes/tomatoes'
+import {initTodos,initTomatoes} from "../../redux/actions";
+import { connect } from 'react-redux';
+// import Tomatoes from 'src/components/Tomatoes/tomatoes'
+import Statistics from 'src/components/Statistics/Statistics'
 interface IRouter {
 	history: any;
 }
 
 interface IIndexState {
 	user: any
+}
+interface IIndexProps {
+	initTodos: (payload: any) => any,
+	initTomatoes: (payload: any) => any,
 }
 
 const logout = ()=>{
@@ -25,7 +32,7 @@ const menu = (
 	</Menu>
 );
 
-class Home extends React.Component<IRouter,IIndexState> {
+class Home extends React.Component<IIndexProps,IIndexState,IRouter > {
 
 	constructor(props: any){
 		super(props)
@@ -36,8 +43,26 @@ class Home extends React.Component<IRouter,IIndexState> {
 
 	async componentWillMount(){
 		await this.getMe()
+		await this.getTodos()
+		await this.getTomatoes()
 	}
-
+	getTomatoes = async () => {
+        try {
+            const response = await axios.get('tomatoes')
+            this.props.initTomatoes(response.data.resources)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+	getTodos = async () => {
+		try{
+			const response = await axios.get('todos')
+			const todos = response.data.resources.map(t=>Object.assign({},t,{editing: false}))
+			this.props.initTodos(todos)
+		}catch (e) {
+			throw new Error(e)
+		}
+	}
 	getMe = async () => {
 		const response = await axios.get('me');
 		this.setState({user: response.data})
@@ -56,12 +81,22 @@ class Home extends React.Component<IRouter,IIndexState> {
 					</Dropdown>
 				</header>
 				<main>
-					<Tomatoes/>
+					{/* <Tomatoes/> */}
 					<Todos/>
 				</main>
+				<Statistics/>
 			</div>
 		);
 	}
 }
+const mapStateToProps = (state, ownProps) => ({
+	todos: state.todos,
+	...ownProps
+})
 
-export default Home;
+const mapDispatchToProps = {
+	initTodos,
+	initTomatoes
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);
