@@ -3,12 +3,10 @@
     border-top: 1px solid #ddd;
 
     .dailyTomatoes {
-        padding-top: 16px;
         .title {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4px;
 
             .dateTime {
                 color: #999;
@@ -31,5 +29,7 @@
             }
         }
     }
-
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+        padding: 8px 30px;
+    }   
 }

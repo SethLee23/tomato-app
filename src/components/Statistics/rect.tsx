@@ -20,7 +20,6 @@ class Rect extends React.Component<IRectProps> {
             const newDate = format(new Date(date.getTime() - i * 24 * 60 * 60 * 1000), 'YYYY-MM-D')
             arr.push(newDate)
         }
-        console.log(arr)
         arr.sort((a, b) => Date.parse(a) - Date.parse(b))
         // const dates = Object.keys(this.props.data).sort((a, b) => Date.parse(a) - Date.parse(b))
         const width = this.props.width

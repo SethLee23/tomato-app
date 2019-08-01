@@ -6,7 +6,7 @@ import history from 'src/config/history'
 import './Home.scss'
 import {initTodos,initTomatoes} from "../../redux/actions";
 import { connect } from 'react-redux';
-// import Tomatoes from 'src/components/Tomatoes/tomatoes'
+import Tomatoes from 'src/components/Tomatoes/tomatoes'
 import Statistics from 'src/components/Statistics/Statistics'
 interface IRouter {
 	history: any;
@@ -81,7 +81,7 @@ class Home extends React.Component<IIndexProps,IIndexState,IRouter > {
 					</Dropdown>
 				</header>
 				<main>
-					{/* <Tomatoes/> */}
+					<Tomatoes/>
 					<Todos/>
 				</main>
 				<Statistics/>

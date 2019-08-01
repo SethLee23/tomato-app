@@ -5,7 +5,9 @@ import _ from 'lodash'
 import { format } from 'date-fns'
 import './Statistics.scss'
 import Polygon from './Polygon'
-import TodohistoryItem from './todoHistory/todoHistory'
+// import TodohistoryItem from './todoHistory/todoHistory'
+import Todohistory from './todoHistory/todoHistory'
+import classNames from 'classnames';
 interface IStattisticProps {
 	todos: any[],
 	tomatoes: any[]
@@ -13,29 +15,26 @@ interface IStattisticProps {
 interface IState {
 	activeId: number
 	liWidth: number
-	// ulWidth: number
+	type: string
+	tab: any[]
+	curIndex: number
 }
 
 class Statistics extends React.Component<IStattisticProps,IState> {
 	liNode: HTMLLIElement | null;
-	// ulNode: HTMLUListElement | null;
 	constructor(props: any) {
 		super(props)
-		console.log(this.props)
 		this.state = {
 			activeId: -1,
 			liWidth: this.liNode?this.liNode.offsetWidth-2 : 0,
-			// ulWidth: this.ulNode?this.ulNode.offsetWidth-2 :0
+			type: 'todo',
+			tab: ['已完成的任务','已删除的任务'],
+			curIndex: 0
 		  }
 	}
 	updateSize = ()=>{
 		const liWidth = this.liNode? this.liNode.offsetWidth-2: 0
-		// let ulWidth = this.ulNode? this.ulNode.offsetWidth-66: 0
-		//   if(ulWidth<0){
-		// 	  ulWidth = 0
-		//   }
 		if(this.state.liWidth !==liWidth){this.setState({ liWidth })}
-		// if(this.state.ulWidth !==ulWidth){this.setState({ ulWidth })}
 	  }
 	componentDidMount(){
 		this.updateSize()
@@ -61,11 +60,27 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 			return format(tomatoes.ended_at, 'YYYY-MM-D')
 		})
 	}
+	showTomato = (e) => {
+		this.setState({type: 'tomato', tab: ['已完成的番茄','打断记录'],curIndex:2})
+	}
+	showTodo = () => {
+		console.log("todo")
+		this.setState({type: 'todo',tab: ['已完成的任务','已删除的任务'],curIndex:3})
+	}
+	showTask = () => {
+		console.log("showTask")
+	}
 	render() {
+		const activeClass3 = classNames({
+			active: this.state.curIndex===3,
+		})
+		const activeClass2 = classNames({
+			active: this.state.curIndex===2,
+		})
 		return (
 			<div className="Statistics">
 				<ul className="statisticPart">
-					<li>
+					<li >
 					<div className="desc"><span className="title">统计</span>
 						<span className="subtitle">一周累计</span>
 						<span className="quantity">{this.FinishedTodos.length}</span>
@@ -74,7 +89,7 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 								totalFinishedCount={this.FinishedTodos.length} 
 								width={this.state.liWidth}/>
 					</li>
-					<li>
+					<li onClick={(e)=>{this.showTomato(e)}} className={activeClass2}>
 					<div className="desc"><span className="title">番茄历史</span>
 						<span className="subtitle">累计完成番茄</span>
 						<span className="quantity">{this.FinishedTomatoes.length}</span>
@@ -83,7 +98,7 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 								totalFinishedCount={this.FinishedTomatoes.length} 
 								width={this.state.liWidth}/>
 					</li>
-					<li ref={li=>this.liNode=li}>
+					<li ref={li=>this.liNode=li} onClick={this.showTodo} className={activeClass3}>
 						<div className="desc"><span className="title">任务历史</span>
 						<span className="subtitle">累计完成任务</span>
 						<span className="quantity">{this.FinishedTodos.length}</span>
@@ -94,7 +109,7 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 						
 					</li>
 				</ul>
-				<TodohistoryItem className="todoHistory" />
+				<Todohistory className="todoHistory" type={this.state.type} tab={this.state.tab}/>
 			</div>
 		);
 	}
