@@ -1,8 +1,66 @@
 .Statistics {
     ul {
         display: flex;
+        border: 1px solid red;
+
         >li {
-            flex: 1;
+            flex: 1 1;
+            border: 1px solid #e4e4e4;
+            cursor: pointer;
+            min-height: 90px;
+            background: #fff;
+            text-align: left;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+            -webkit-box-shadow: 0 2px 0 hsla(0, 0%, 88%, .2);
+            box-shadow: 0 2px 0 hsla(0, 0%, 88%, .2);
+display: flex;
+            .desc {
+                position: absolute;
+                padding: 10px 10px 0;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-direction: column;
+                flex-direction: column;
+
+                .title {
+                    display: block;
+                    font-size: 14px;
+                    color: #666;
+                }
+
+                .subtitle {
+                    font-size: 12px;
+                    line-height: 12px;
+                    color: #999;
+                    padding: 6px 0 2px;
+                }
+
+                .quantity {
+                    font-size: 30px;
+                    color: #666;
+                    line-height: 34px;
+                }
+            }
+
+            .polygon {
+                width: 100%;
+                height: 60px;
+                -ms-flex-item-align: end;
+                align-self: flex-end;
+svg {
+    align-self: flex-end;
+}
+                >.part {
+                    width: 100%;
+                    display: flex;
+
+                    >Polygon {
+                        flex: 1;
+                    }
+                }
+            }
         }
     }
 }
