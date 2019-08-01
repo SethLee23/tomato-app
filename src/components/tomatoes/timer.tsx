@@ -4,7 +4,7 @@ import './timer.scss'
 interface ITimerProps {
     duration: number,
     timer: number,
-    onFinished: () => void
+    onFinished: () => void,
 }
 interface ITimerState {
     clock: number,
@@ -32,12 +32,14 @@ class Timer extends React.Component<ITimerProps, ITimerState> {
                 this.props.onFinished()
                 clearInterval(timerId)
                 document.title = "番茄闹钟"
-                // 告诉父组件完成倒计时
-                
             }
         }, 1000)
 
     }
+    componentWillUnmount(){
+        clearInterval(timerId)
+        document.title= '番茄闹钟'
+      }
     public render() {
        const percent = 1-this.state.clock/this.props.duration
         return (

@@ -9,7 +9,8 @@ interface ITomatoesProps {
     updateTomatoes: (params: any) => any
 }
 interface ITomatoesState {
-    description: string
+    description: string,
+    finished:boolean
 }
 const { confirm } = Modal;
 class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
@@ -17,6 +18,7 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         super(props)
         this.state = {
             description: '',
+            finished: false
         }
     }
     keyUp = (e) => {
@@ -52,7 +54,7 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         console.log('abort')
         this.updateTomato( {
             aborted: true
-        })  
+        })
     }
     updateTomato = async (params: any) => {
         try {
@@ -61,7 +63,8 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         } catch (e) { console.error(e) }
     }
     onFinished = () => {
-        this.forceUpdate()
+        this.setState({finished:true})
+        // this.forceUpdate()
     }
     public render() {
         let html = <div />
@@ -70,8 +73,8 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         } else {
             const started = Date.parse(this.props.uncompleted.started_at)
             const duration = this.props.uncompleted.duration
-            const nowTime = Date.parse(new Date().toUTCString())
-            if (nowTime - started > duration) {
+            const nowTime = new Date().getTime()
+            if (nowTime - started > duration || this.state.finished) {
                 html = <div className="inputWrapper">
                     <Input value={this.state.description}
                         placeholder="请输入完成的任务"
@@ -80,10 +83,12 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
                     <Icon type="close-circle" className="abort" onClick={this.confirmDelete}/>
                 </div>
             } else if (nowTime - started < duration) {
-                const timer = duration - (nowTime - started)
+                const timer = duration - nowTime + started
+                
+                
                 html = (
                     <div className="timerWrapper">
-                        <Timer timer={timer} onFinished={this.onFinished} duration={this.props.uncompleted.duration} />
+                        <Timer timer={timer} onFinished={this.onFinished} duration={this.props.uncompleted.duration}/>
                         <Icon type="close-circle" className="abort" onClick={this.confirmDelete}/>
                     </div>
                 )

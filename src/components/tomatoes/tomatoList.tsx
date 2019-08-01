@@ -35,11 +35,11 @@ class TomatoList extends React.Component<ITomatoListProps> {
                         <span className="dateTime">{format(d, 'M月DD日')}</span>
                         <span className="finishedCount">完成了{tomatoes.length}个番茄</span>
                     </div>} key="1">
-                            <p> {
+                            {
                                 tomatoes.map(t => {
                                     return <TodoItem key={t.id} {...t} />
                                 })
-                            }</p>
+                            }
                         </Panel>
                     </Collapse>
                 </div>
