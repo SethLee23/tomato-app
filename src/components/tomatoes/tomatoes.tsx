@@ -13,15 +13,22 @@ interface ITomatoesProps {
     tomatoes: any[]
     updateTomatoes: (payload: any) => any
 }
+interface ITomatoesState {
+    finished:boolean
+}
 
-class Tomatoes extends React.Component<ITomatoesProps> {
+class Tomatoes extends React.Component<ITomatoesProps,ITomatoesState> {
     constructor(props) {
         super(props)
+        this.state = {
+            finished: false
+        }
     }
     startTomatoes = async () => {
         try {
             const response = await axios.post('tomatoes', { duration: 20000 })
             this.props.addTomatoes(response.data.resource)
+            this.setState({finished: false})
         } catch (e) {
             console.error(e)
         }
@@ -29,7 +36,10 @@ class Tomatoes extends React.Component<ITomatoesProps> {
     updateTomatoes = (payload) => {
         this.props.updateTomatoes(payload)
     }
-
+    onFinished = () => {
+        this.setState({finished:true})
+        // this.forceUpdate()
+    }
     get uncompleted() {
         return this.props.tomatoes.filter(t => !t.description && !t.ended_at && !t.aborted)[0]
     }
@@ -47,6 +57,8 @@ class Tomatoes extends React.Component<ITomatoesProps> {
                     uncompleted={this.uncompleted}
                     startTomatoes={this.startTomatoes}
                     updateTomatoes={this.updateTomatoes}
+                    finished = {this.state.finished}
+                    onFinished= {this.onFinished}
                 />
                 {this.completed?<TomatoList completed={this.completed}/>:<div>还未获取</div>}
                 

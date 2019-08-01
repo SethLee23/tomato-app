@@ -4,13 +4,16 @@ import axios from 'src/config/axios'
 import './tomatoesButton.scss'
 import Timer from './timer'
 interface ITomatoesProps {
+    finished: boolean,
+    onFinished: () => void,
     startTomatoes: () => void,
     uncompleted: any
-    updateTomatoes: (params: any) => any
+    updateTomatoes: (params: any) => any,
+
 }
 interface ITomatoesState {
     description: string,
-    finished:boolean
+    
 }
 const { confirm } = Modal;
 class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
@@ -18,7 +21,7 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         super(props)
         this.state = {
             description: '',
-            finished: false
+           
         }
     }
     keyUp = (e) => {
@@ -62,19 +65,16 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
             this.props.updateTomatoes(response.data.resource)
         } catch (e) { console.error(e) }
     }
-    onFinished = () => {
-        this.setState({finished:true})
-        // this.forceUpdate()
-    }
-    public render() {
+    
+    get html(){
         let html = <div />
         if (this.props.uncompleted === undefined) {
-            html = <Button className="startbutton" onClick={() => { this.props.startTomatoes() }}>开始番茄</Button>
+          return <Button className="startbutton" onClick={() => { this.props.startTomatoes() }}>开始番茄</Button>
         } else {
             const started = Date.parse(this.props.uncompleted.started_at)
             const duration = this.props.uncompleted.duration
             const nowTime = new Date().getTime()
-            if (nowTime - started > duration || this.state.finished) {
+            if (nowTime - started > duration || this.props.finished) {
                 html = <div className="inputWrapper">
                     <Input value={this.state.description}
                         placeholder="请输入完成的任务"
@@ -88,15 +88,18 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
                 
                 html = (
                     <div className="timerWrapper">
-                        <Timer timer={timer} onFinished={this.onFinished} duration={this.props.uncompleted.duration}/>
+                        <Timer timer={timer} onFinished={this.props.onFinished} duration={this.props.uncompleted.duration}/>
                         <Icon type="close-circle" className="abort" onClick={this.confirmDelete}/>
                     </div>
                 )
             }
         }
+        return html
+    }
+    public render() {
         return (
             <div className="tomatoesButton" id="tomatoesButton">
-                {html}
+                {this.html}
             </div>
         );
     }
