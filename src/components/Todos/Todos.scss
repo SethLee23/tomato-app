@@ -7,6 +7,10 @@
   background: #fff;
   >.todoLists{
     margin-top: 16px;
+    .completed  span {
+      color: #999;
+      text-decoration: line-through;
+    }
   }
   .ant-collapse-content > .ant-collapse-content-box {
     padding: 0px; 

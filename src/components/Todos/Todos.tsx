@@ -36,12 +36,13 @@ class Todos extends React.Component<any> {
 						this.unCompletedTodos.map(t =>
 							<TodoItem key={t.id} {...t} />)
 					}
-					<Collapse defaultActiveKey={['1']} bordered={false}>
+					<Collapse defaultActiveKey={['1']} bordered={false} className="completed">
 						<Panel header="最近完成任务" key="1">
-							{
+							<span>{
 								this.completedTodos.map(t =>
 									<TodoItem key={t.id} {...t} />)
 							}
+							</span>
 						</Panel>
 					</Collapse>
 

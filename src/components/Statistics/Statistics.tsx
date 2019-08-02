@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import './Statistics.scss'
 import Polygon from './Polygon'
 // import TodohistoryItem from './todoHistory/todoHistory'
-import Todohistory from './todoHistory/todoHistory'
+import Todohistory from './history/todoHistory'
 import classNames from 'classnames';
 interface IStattisticProps {
 	todos: any[],

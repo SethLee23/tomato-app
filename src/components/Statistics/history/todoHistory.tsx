@@ -2,21 +2,29 @@ import * as React from 'react';
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { format } from 'date-fns'
-import { Tabs } from 'antd';
+import { Tabs, Switch } from 'antd';
 import './todoHistory.scss'
 // import Polygon from './Polygon'
 import TodohistoryItem from './TodohistoryItem'
+import Addtomato from '../tomatoHistory/addTomato'
+import classNames from 'classnames';
 interface ITodoHistoryProps {
     todos: any[],
     tomatoes: any[],
     type: string,
     tab: any[]
 }
+interface ITodoHistoryState {
+    showCanlendar: boolean
+}
 const { TabPane } = Tabs;
-class Todohistory extends React.Component<ITodoHistoryProps> {
+class Todohistory extends React.Component<ITodoHistoryProps,ITodoHistoryState> {
 
     constructor(props: any) {
         super(props)
+        this.state = {
+            showCanlendar: true
+        }
     }
     get finishedTodos() {
         return this.props.todos.filter(t => !t.deleted && t.completed)
@@ -65,6 +73,9 @@ class Todohistory extends React.Component<ITodoHistoryProps> {
     callback = (key) => {
         console.log(key);
     }
+    onChange = (checked) => {
+        this.setState({showCanlendar: checked})
+    }
     render() {
         const weekArray = new Array("日", "一", "二", "三", "四", "五", "六")
         const todoList = (this.dates.map(d => {
@@ -80,7 +91,7 @@ class Todohistory extends React.Component<ITodoHistoryProps> {
                     <div className="todoListHistory">
                         {
                             this.dailyFinishedTodos[d].map(t => {
-                                return <TodohistoryItem key={t.id} todo={...t} itemType="finished" type={this.props.type}/>
+                                return <TodohistoryItem key={t.id} todo={...t} itemType="finished" type={this.props.type} />
                             })
                         }
                     </div>
@@ -100,7 +111,7 @@ class Todohistory extends React.Component<ITodoHistoryProps> {
                     <div className="todoListHistory">
                         {
                             this.dailyCompletedTomatoes[d].map(t => {
-                                return <TodohistoryItem key={t.id} todo={...t} itemType="finished" type={this.props.type}/>
+                                return <TodohistoryItem key={t.id} todo={...t} itemType="finished" type={this.props.type} />
                             })
                         }
                     </div>
@@ -119,7 +130,7 @@ class Todohistory extends React.Component<ITodoHistoryProps> {
                     </div>
                     <div className="todoListHistory">
                         {this.dailyDeletedTodos[d].map(t => {
-                            return <TodohistoryItem key={t.id} todo={...t} itemType="deleted" type={this.props.type}/>
+                            return <TodohistoryItem key={t.id} todo={...t} itemType="deleted" type={this.props.type} />
                         })}
                     </div>
                 </div>
@@ -137,30 +148,36 @@ class Todohistory extends React.Component<ITodoHistoryProps> {
                     </div>
                     <div className="todoListHistory">
                         {this.dailyAbortedTomatoes[d].map(t => {
-                            return <TodohistoryItem key={t.id} todo={...t} itemType="deleted" type={this.props.type}/>
+                            return <TodohistoryItem key={t.id} todo={...t} itemType="deleted" type={this.props.type} />
                         })}
                     </div>
                 </div>
             )
         }))
+        const active = classNames({
+            cactive: this.state.showCanlendar,
+            chide: !this.state.showCanlendar,
+		})
         let list
         if (this.props.type === 'todo') {
             list = todoList
         } else if (this.props.type === 'tomato') {
-            list = tomatoesList
+            list = (<div><div className={active}><Addtomato /></div>{tomatoesList}</div>)
         }
         let deleteAndAbort
         if (this.props.type === 'todo') {
-            deleteAndAbort =  deletedList
+            deleteAndAbort = deletedList
         } else if (this.props.type === 'tomato') {
             deleteAndAbort = abortedList
         }
+
         return (
-            <div>
+            <div className="todohistoryContainer">
+                {this.props.type === 'tomato'?<div className="ant-switch-wrapper"><Switch  defaultChecked = {true} onChange={this.onChange}/></div>:<span/>}
                 <Tabs defaultActiveKey="1" onChange={this.callback} type="card">
                     <TabPane tab={this.props.tab[0]} key="1">
                         {/* {tomatoesList} */}
-                     {list}
+                        {list}
                     </TabPane>
                     <TabPane tab={this.props.tab[1]} key="2">
                         {deleteAndAbort}

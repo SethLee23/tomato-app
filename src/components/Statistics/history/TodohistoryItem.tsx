@@ -75,10 +75,18 @@ class TodoHistoryItem extends React.Component<ITodoHistoryProps> {
                 )
             }
         }
+        const descriptionList = this.props.todo
+        console.log(descriptionList.manually_created)
+        let description
+        if(descriptionList.manually_created){
+            description = (<span>{this.props.todo.description }<span className="addPotato">（补打）</span></span>)
+        }else{
+            description = this.props.todo.description
+        }
         const text = (
             <div className="text" >
                 <span className="time">{time}</span>
-                <span className="description">{this.props.todo.description ? this.props.todo.description : '描述为空'}</span>
+                <span className="description">{this.props.todo.description ? description : '描述为空'}</span>
             </div>
         )
         return (

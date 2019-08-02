@@ -33,4 +33,22 @@
         flex: 1;
 
     }
+   
+}
+.chide {
+    display: none;
+}
+.cactive {
+    display: block;
+}
+
+.todohistoryContainer {
+   position: relative;
+   margin-top: 2.1rem;
+    .ant-switch-wrapper{
+       position: absolute;
+       top: 0;
+       right: 0;
+       z-index: 9999;
+    }
 }

@@ -1,0 +1,17 @@
+
+.add_tomato_pane {
+    display: inline-block;
+    > form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .submitBurtton {
+            display: flex;
+            justify-content: center;
+        }
+      button {
+         margin-right: 12px;
+        
+     }
+    }
+}

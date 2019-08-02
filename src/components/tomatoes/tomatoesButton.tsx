@@ -3,6 +3,7 @@ import { Button, Input, Icon, Modal } from 'antd'
 import axios from 'src/config/axios'
 import './tomatoesButton.scss'
 import Timer from './timer'
+
 interface ITomatoesProps {
     finished: boolean,
     onFinished: () => void,
