@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { Dropdown,Icon,Menu } from "antd";
+import { Dropdown, Icon, Menu } from "antd";
 import Todos from 'src/components/Todos/Todos'
 import axios from 'src/config/axios';
 import history from 'src/config/history'
 import './Home.scss'
-import {initTodos,initTomatoes} from "../../redux/actions";
+import { initTodos, initTomatoes } from "../../redux/actions";
 import { connect } from 'react-redux';
 import Tomatoes from 'src/components/Tomatoes/tomatoes'
 import Statistics from 'src/components/Statistics/Statistics'
+import imgSrc from './tomato.png'
+// import './svg'
 interface IRouter {
 	history: any;
 }
@@ -20,72 +22,73 @@ interface IIndexProps {
 	initTomatoes: (payload: any) => any,
 }
 
-const logout = ()=>{
-	localStorage.setItem('x-token','')
+const logout = () => {
+	localStorage.setItem('x-token', '')
 	history.push('/login')
 }
 
 const menu = (
 	<Menu>
-		<Menu.Item key="1"><Icon type="user" />个人设置</Menu.Item>
-		<Menu.Item key="2" onClick={logout}><Icon type="logout" />注销</Menu.Item>
+		{/* <Menu.Item key="1"><Icon type="user" />个人设置</Menu.Item> */}
+		<Menu.Item key="1" onClick={logout}><Icon type="logout" />注销</Menu.Item>
 	</Menu>
 );
 
-class Home extends React.Component<IIndexProps,IIndexState,IRouter > {
+class Home extends React.Component<IIndexProps, IIndexState, IRouter> {
 
-	constructor(props: any){
+	constructor(props: any) {
 		super(props)
 		this.state = {
 			user: {}
 		}
 	}
 
-	async componentWillMount(){
+	async componentWillMount() {
 		await this.getMe()
 		await this.getTodos()
 		await this.getTomatoes()
 	}
 	getTomatoes = async () => {
-        try {
-            const response = await axios.get('tomatoes')
-            this.props.initTomatoes(response.data.resources)
-        } catch (e) {
-            console.error(e)
-        }
-    }
+		try {
+			const response = await axios.get('tomatoes')
+			this.props.initTomatoes(response.data.resources)
+		} catch (e) {
+			console.error(e)
+		}
+	}
 	getTodos = async () => {
-		try{
+		try {
 			const response = await axios.get('todos')
-			const todos = response.data.resources.map(t=>Object.assign({},t,{editing: false}))
+			const todos = response.data.resources.map(t => Object.assign({}, t, { editing: false }))
 			this.props.initTodos(todos)
-		}catch (e) {
+		} catch (e) {
 			throw new Error(e)
 		}
 	}
 	getMe = async () => {
 		const response = await axios.get('me');
-		this.setState({user: response.data})
+		this.setState({ user: response.data })
 	}
-
+	
 	render() {
 		return (
 			<div className="Home" id="Home">
 				<header>
-					<span className="logo">LOGO</span>
+
+					<img src={imgSrc} className="logo" />
 					<Dropdown overlay={menu}>
 						<span>
 							{this.state.user && this.state.user.account}
-							<Icon type="down" style={{ marginLeft: 8}}/>
+							<Icon type="down" style={{ marginLeft: 8 }} />
 						</span>
 					</Dropdown>
 				</header>
 				<main>
-					<Tomatoes/>
-					<Todos/>
+					<Tomatoes />
+					<Todos />
 				</main>
-				<Statistics/>
-			</div>
+				<Statistics />
+			</div >
 		);
 	}
 }
@@ -99,4 +102,4 @@ const mapDispatchToProps = {
 	initTomatoes
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
