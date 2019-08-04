@@ -2,19 +2,23 @@ import * as React from 'react';
 import { Input, Icon, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'src/config/axios'
-
+import backgroundSrc from './background.png'
 import './signUp.scss'
+
 const testName = /^\S{1,9}$/g
 const tetsPassword = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{8,16}$/
+
+message.config({
+	maxCount: 1,
+});
+
 interface ISignUpState {
 	account: string,
 	password: string,
 	passwordConformation: string
 	wrongInfo: boolean
 }
-message.config({
-	maxCount: 1,
-  });
+
 class SignUp extends React.Component<any, ISignUpState> {
 	constructor(props) {
 		super(props)
@@ -58,9 +62,10 @@ class SignUp extends React.Component<any, ISignUpState> {
 	debounce = (fn, wait) => {
 		let timer
 		return () => {
-			if (timer) { 
+			if (timer) {
 				console.log('timer存在')
-				clearTimeout(timer) }
+				clearTimeout(timer)
+			}
 			timer = setTimeout(() => {
 				fn.call(this)
 			}, wait)
@@ -93,7 +98,7 @@ class SignUp extends React.Component<any, ISignUpState> {
 			})
 			this.props.history.push('/')
 		} catch (e) {
-			if (e.message.indexOf(422)!==-1) {
+			if (e.message.indexOf(422) !== -1) {
 				this.warning('用户名已存在')
 			}
 		}
@@ -102,19 +107,25 @@ class SignUp extends React.Component<any, ISignUpState> {
 	public render() {
 		const { account, password, passwordConformation } = this.state;
 		return (
-			<div className="SignUp" id="SignUp">
-				<h1>番茄闹钟注册</h1>
-				<Input
-					placeholder="请输入你的用户名"
-					prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-					value={account}
-					onChange={this.onChangeAccount}
-				/>
-				<Input.Password value={password} placeholder="请输入密码" onChange={this.onChangePassword} />
-				<Input.Password value={passwordConformation} placeholder="请确认密码" onChange={this.onChangePasswordConformation} />
-				<Button type="primary" className="signUpButton" onClick={this.submit}>注册</Button>
-				<p>如果你有账号，请立即 <Link to="/login">登录</Link></p>
+			<div className="signUpLayout">
+				<div className="signUpWrapper">
+					<img src={backgroundSrc} />
+					<div className="SignUp" id="SignUp">
+						<h1>注册番茄闹钟</h1>
+						<Input
+							placeholder="请输入你的用户名"
+							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+							value={account}
+							onChange={this.onChangeAccount}
+						/>
+						<Input.Password value={password} placeholder="请输入密码" onChange={this.onChangePassword} />
+						<Input.Password value={passwordConformation} placeholder="请确认密码" onChange={this.onChangePasswordConformation} />
+						<Button type="primary" className="signUpButton" onClick={this.submit}>注册</Button>
+						<p>如果你有账号，请立即 <Link to="/login">登录</Link></p>
+					</div>
+				</div>
 			</div>
+
 		);
 	}
 }

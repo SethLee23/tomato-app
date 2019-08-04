@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Tomatoes from 'src/components/Tomatoes/tomatoes'
 import Statistics from 'src/components/Statistics/Statistics'
 import imgSrc from './tomato.png'
+
 // import './svg'
 interface IRouter {
 	history: any;
