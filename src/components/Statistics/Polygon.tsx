@@ -19,6 +19,31 @@ class Polygon extends React.Component<IPolygonProps> {
     }
     point = () => {
         const width = this.props.width
+        // point = () => {
+        //     const date = new Date()
+        //     const arr: any[] = []
+        //     for (let i = 0; i < 7; i++) {
+        //         const newDate = format(new Date(date.getTime() - i * 24 * 60 * 60 * 1000), 'YYYY-MM-D')
+        //         arr.push(newDate)
+        //     }
+        //     arr.sort((a, b) => Date.parse(a) - Date.parse(b))
+        //     // const dates = Object.keys(this.props.data).sort((a, b) => Date.parse(a) - Date.parse(b))
+        //     const width = this.props.width
+        //     let x = 0
+        //     let finishedCount = 0
+        //     const pointArr = arr.map(d => {
+        //         if (this.props.data[d] === undefined) {
+        //             finishedCount = 0.2
+        //         } else {
+        //             finishedCount = this.props.data[d].length
+        //         }
+        //         x += width / 8
+        //         const y = (1 - (finishedCount / this.props.totalFinishedCount)) * 60
+        //         const height = 60 - y
+        //         return `${x},${y},${height}`
+        //     })
+        //     return pointArr
+        // }
         const dates = Object.keys(this.props.data).sort((a, b) =>  Date.parse(a) - Date.parse(b))
         const firstDay = dates[0]
         let finishedY

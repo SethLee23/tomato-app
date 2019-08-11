@@ -26,7 +26,7 @@ class Tomatoes extends React.Component<ITomatoesProps,ITomatoesState> {
     }
     startTomatoes = async () => {
         try {
-            const response = await axios.post('tomatoes', { duration: 20000 })
+            const response = await axios.post('tomatoes', { duration: 1500000 })
             this.props.addTomatoes(response.data.resource)
             this.setState({finished: false})
         } catch (e) {
@@ -52,7 +52,7 @@ class Tomatoes extends React.Component<ITomatoesProps,ITomatoesState> {
     }
     public render() {
         return (
-            <div className="tomatoes" id="tomatoes">
+            <div className="tomatoes " id="tomatoes">
                 <TomatoesButton
                     uncompleted={this.uncompleted}
                     startTomatoes={this.startTomatoes}

@@ -27,7 +27,6 @@ const logout = () => {
 	localStorage.setItem('x-token', '')
 	history.push('/login')
 }
-
 const menu = (
 	<Menu>
 		{/* <Menu.Item key="1"><Icon type="user" />个人设置</Menu.Item> */}
@@ -75,8 +74,8 @@ class Home extends React.Component<IIndexProps, IIndexState, IRouter> {
 		return (
 			<div className="Home" id="Home">
 				<header>
-
 					<img src={imgSrc} className="logo" />
+					
 					<Dropdown overlay={menu}>
 						<span>
 							{this.state.user && this.state.user.account}

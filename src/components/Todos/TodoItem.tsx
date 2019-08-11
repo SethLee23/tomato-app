@@ -57,7 +57,7 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
 					onKeyUp={this.onKeyUp}
 				/>
 				<div className="iconWrapper">
-					<Icon type="enter" className="todoItemEnter" />
+					<Icon type="enter" className="todoItemEnter" onClick={() => this.updateTodo({ description: this.state.editText })}/>
 					<Icon type="delete" className="todoItemdelete" theme="filled"
 						onClick={e => this.updateTodo({ deleted: true })} />
 				</div>

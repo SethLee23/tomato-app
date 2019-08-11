@@ -78,11 +78,11 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 			active: this.state.curIndex===2,
 		})
 		return (
-			<div className="Statistics">
+			<div className="Statistics searchContent1">
 				<ul className="statisticPart">
 					<li >
 					<div className="desc"><span className="title">统计</span>
-						<span className="subtitle">一周累计</span>
+						<span className="subtitle">累计</span>
 						<span className="quantity">{this.FinishedTodos.length}</span>
 						</div>
 						<Rect data={this.dailyTodos}
@@ -109,7 +109,7 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 						
 					</li>
 				</ul>
-				<Todohistory className="todoHistory" type={this.state.type} tab={this.state.tab}/>
+				<Todohistory className="todoHistory " type={this.state.type} tab={this.state.tab}/>
 			</div>
 		);
 	}
