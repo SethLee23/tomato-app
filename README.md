@@ -1,4 +1,5 @@
 # 番茄闹钟
+项目代码见 todo 分支
 ## 项目介绍
 基于 React 实现番茄闹钟，实现登陆、注册、番茄闹钟模块、todoList、完成番茄、任务历史图表统计，任务历史、番茄历史等模块。
 ## [项目预览](https://sethlee23.github.io/tomato-app/)
