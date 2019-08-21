@@ -52,13 +52,9 @@ class Polygon extends React.Component<IPolygonProps> {
             const range = new Date().getTime() - Date.parse(firstDay)
 			let finishedCount = 0
             const pointArr = dates.map(d => {
-                let x = (Date.parse(d) - Date.parse(firstDay)) / range * width
+                const x = (Date.parse(d) - Date.parse(firstDay)) / range * width
                 finishedCount += this.props.data[d].length
                const y = (1 - (finishedCount / this.props.totalFinishedCount)) * 60
-                if(x===0){
-                    x = 60
-                }
-                // finishedX = x
                 finishedY = y
                 return `${x},${y}`
             })

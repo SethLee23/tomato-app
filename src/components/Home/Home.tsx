@@ -6,7 +6,7 @@ import history from 'src/config/history'
 import './Home.scss'
 import { initTodos, initTomatoes } from "../../redux/actions";
 import { connect } from 'react-redux';
-import Tomatoes from 'src/components/Tomatoes/tomatoes'
+import Tomatoes from 'src/components/tomatoes/tomatoes'
 import Statistics from 'src/components/Statistics/Statistics'
 import imgSrc from './tomato.png'
 

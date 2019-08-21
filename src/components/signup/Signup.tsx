@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'src/config/axios'
 import backgroundSrc from './background.png'
 import './signUp.scss'
-
-const testName = /^\S{1,9}$/g
+import classNames from 'classnames';
+const testName = /^\S{1,9}$/
 const tetsPassword = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{8,16}$/
 
 message.config({
@@ -15,8 +15,11 @@ message.config({
 interface ISignUpState {
 	account: string,
 	password: string,
-	passwordConformation: string
-	wrongInfo: boolean
+	passwordConformation: string,
+	wrongInfo: boolean,
+	wrongUsername: boolean,
+	wrongPassword: boolean,
+	wrongConfirm: boolean
 }
 
 class SignUp extends React.Component<any, ISignUpState> {
@@ -27,33 +30,34 @@ class SignUp extends React.Component<any, ISignUpState> {
 			password: '',
 			passwordConformation: '',
 			wrongInfo: false,
+			wrongUsername: false,
+			wrongPassword: false,
+			wrongConfirm: false,
 		}
 	}
 	checkName = () => {
+		console.log(testName.test(this.state.account))
 		if (!testName.test(this.state.account)) {
-			this.warning('用户名应含 1-9 字符')
-			this.setState({ wrongInfo: true })
+			this.setState({ wrongInfo: true, wrongUsername: true })
 			return
 		}
-		this.setState({ wrongInfo: false })
-		return
+		this.setState({ wrongInfo: false, wrongUsername: false })
+
 	}
 	checkPassword = () => {
 		if (!tetsPassword.test(this.state.password)) {
-			this.warning('请输入含 8-16 位数字和字母或下划线的密码')
-			this.setState({ wrongInfo: true })
+			this.setState({ wrongInfo: true, wrongPassword: true })
 			return
 		}
-		this.setState({ wrongInfo: false })
+		this.setState({ wrongInfo: false, wrongPassword: false })
 		return
 	}
 	checkPassWordConformation = () => {
 		if (this.state.passwordConformation !== this.state.password) {
-			this.warning('密码请保持一致')
-			this.setState({ wrongInfo: true })
+			this.setState({ wrongInfo: true, wrongConfirm: true })
 			return
 		}
-		this.setState({ wrongInfo: false })
+		this.setState({ wrongInfo: false, wrongConfirm: false })
 		return
 	}
 	warning = (text) => {
@@ -73,12 +77,12 @@ class SignUp extends React.Component<any, ISignUpState> {
 	}
 	onChangeAccount = (e) => {
 		this.setState({ account: e.target.value });
-		this.debounce(this.checkName, 1000)()
+		this.debounce(this.checkName, 100)()
 	}
 
 	onChangePassword = (e) => {
 		this.setState({ password: e.target.value });
-		this.debounce(this.checkPassword, 1000)()
+		this.debounce(this.checkPassword, 100)()
 	}
 	onChangePasswordConformation = (e) => {
 		this.setState({ passwordConformation: e.target.value });
@@ -106,20 +110,41 @@ class SignUp extends React.Component<any, ISignUpState> {
 
 	public render() {
 		const { account, password, passwordConformation } = this.state;
+		const showWrong1 = classNames({
+			wrongUsername: this.state.wrongUsername,
+			wrongClass: true,
+		})
+		const showWrong2 = classNames({
+			wrongPassword: this.state.wrongPassword,
+			wrongClass: true,
+		})
+		const showWrong3 = classNames({
+			wrongConfirm: this.state.wrongConfirm,
+			wrongClass: true,
+		})
 		return (
 			<div className="signUpLayout">
 				<div className="signUpWrapper">
 					<img src={backgroundSrc} />
 					<div className="SignUp" id="SignUp">
 						<h1>注册番茄闹钟</h1>
-						<Input
-							placeholder="请输入你的用户名"
-							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-							value={account}
-							onChange={this.onChangeAccount}
-						/>
-						<Input.Password value={password} placeholder="请输入密码" onChange={this.onChangePassword} />
-						<Input.Password value={passwordConformation} placeholder="请确认密码" onChange={this.onChangePasswordConformation} />
+						<div style={{ position: 'relative' }}>
+							<Input
+								placeholder="请输入你的用户名"
+								prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+								value={account}
+								onChange={this.onChangeAccount}
+							/>
+							<div className={showWrong1}>用户名应含 1-9 字符</div>
+						</div>
+						<div style={{ position: 'relative' }}>
+							<Input.Password value={password} placeholder="请输入密码" onChange={this.onChangePassword} />
+							<div className={showWrong2}>密码应混合 8-16 位数字和字母</div>
+						</div>
+						<div style={{ position: 'relative' }}>
+							<Input.Password value={passwordConformation} placeholder="请确认密码" onChange={this.onChangePasswordConformation} />
+							<div className={showWrong3}>密码不一致</div>
+						</div>
 						<Button type="primary" className="signUpButton" onClick={this.submit}>注册</Button>
 						<p>如果你有账号，请立即 <Link to="/login">登录</Link></p>
 					</div>

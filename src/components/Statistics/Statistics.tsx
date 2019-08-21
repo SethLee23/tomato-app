@@ -64,12 +64,31 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 		this.setState({type: 'tomato', tab: ['已完成的番茄','打断记录'],curIndex:2})
 	}
 	showTodo = () => {
-		console.log("todo")
+		// console.log("todo")
 		this.setState({type: 'todo',tab: ['已完成的任务','已删除的任务'],curIndex:3})
 	}
 	showTask = () => {
 		console.log("showTask")
 	}
+	get weekTodo() {
+		const date = new Date()
+		let num = 0
+		const arr: any[] = []
+		// 获取最近一周
+        for (let i = 0; i < 7; i++) {
+            const newDate = format(new Date(date.getTime() - i * 24 * 60 * 60 * 1000), 'YYYY-MM-D')
+            arr.push(newDate)
+		}
+		// 将一周中的时间对照历史完成时间，吻合数量 +1
+		arr.forEach(item=>{
+			this.FinishedTodos.forEach(todo=>{
+				if(format(todo.completed_at, 'YYYY-MM-D') === item){
+					num = num + 1
+				}
+			})
+		})
+        return num
+    }
 	render() {
 		const activeClass3 = classNames({
 			active: this.state.curIndex===3,
@@ -82,8 +101,8 @@ class Statistics extends React.Component<IStattisticProps,IState> {
 				<ul className="statisticPart">
 					<li >
 					<div className="desc"><span className="title">统计</span>
-						<span className="subtitle">累计</span>
-						<span className="quantity">{this.FinishedTodos.length}</span>
+						<span className="subtitle">一周累计</span>
+						<span className="quantity">{this.weekTodo}</span>
 						</div>
 						<Rect data={this.dailyTodos}
 								totalFinishedCount={this.FinishedTodos.length} 

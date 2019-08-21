@@ -45,7 +45,7 @@ class Login extends React.Component<any, ILoginState> {
 				<div className="loginWrapper">
 					<img src={backgroundSrc} />
 					<div className="Login" id="Login">
-						<h1>登陆番茄闹钟</h1>
+						<h1>登录番茄闹钟</h1>
 						<Input
 							placeholder="请输入你的用户名"
 							prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}

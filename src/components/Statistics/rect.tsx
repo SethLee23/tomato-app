@@ -32,7 +32,8 @@ class Rect extends React.Component<IRectProps> {
                 finishedCount = this.props.data[d].length
             }
             x += width / 8
-            const y = (1 - (finishedCount / this.props.totalFinishedCount)) * 60
+           const  totalFinished = this.props.totalFinishedCount || 0.1
+            const y = (1 - (finishedCount /totalFinished )) * 60
             const height = 60 - y
             return `${x},${y},${height}`
         })
