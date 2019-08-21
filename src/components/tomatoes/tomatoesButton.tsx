@@ -55,7 +55,6 @@ class TomatoesButton extends React.Component<ITomatoesProps, ITomatoesState> {
         });
       }
     abortTomato =  () => {
-        console.log('abort')
         this.updateTomato( {
             aborted: true
         })

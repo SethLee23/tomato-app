@@ -19,7 +19,6 @@ class TodoInput extends React.Component<ITodoInputProps,ITodoInputState> {
 		this.state = {
 			description: ''
 		}
-		console.log(this.props)
 	}
 
 	onKeyUp = (e) => {

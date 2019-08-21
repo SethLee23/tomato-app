@@ -25,16 +25,23 @@ class Rect extends React.Component<IRectProps> {
         const width = this.props.width
         let x = 0
         let finishedCount = 0
+        let height = 0
+        let y = 0
         const pointArr = arr.map(d => {
             if (this.props.data[d] === undefined) {
-                finishedCount = 0.2
+                finishedCount = 0.1
             } else {
                 finishedCount = this.props.data[d].length
             }
             x += width / 8
-           const  totalFinished = this.props.totalFinishedCount || 0.1
-            const y = (1 - (finishedCount /totalFinished )) * 60
-            const height = 60 - y
+           const  totalFinished = this.props.totalFinishedCount
+           if(totalFinished===0){
+            height =  0.1
+           }else{
+             y = (1 - (finishedCount /totalFinished )) * 60
+             height = 60 - y
+           }
+           
             return `${x},${y},${height}`
         })
         return pointArr

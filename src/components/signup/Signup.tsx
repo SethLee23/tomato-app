@@ -36,7 +36,6 @@ class SignUp extends React.Component<any, ISignUpState> {
 		}
 	}
 	checkName = () => {
-		console.log(testName.test(this.state.account))
 		if (!testName.test(this.state.account)) {
 			this.setState({ wrongInfo: true, wrongUsername: true })
 			return
@@ -67,7 +66,6 @@ class SignUp extends React.Component<any, ISignUpState> {
 		let timer
 		return () => {
 			if (timer) {
-				console.log('timer存在')
 				clearTimeout(timer)
 			}
 			timer = setTimeout(() => {
